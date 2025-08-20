@@ -5,3 +5,4 @@ motor
 pydantic
 pandas
 openai
+python-dotenv
