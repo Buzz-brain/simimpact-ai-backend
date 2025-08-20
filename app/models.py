@@ -18,3 +18,4 @@ class SimulationResult(BaseModel):
     industry_fit: str
     summary: str
     query: str
+    timestamp: str

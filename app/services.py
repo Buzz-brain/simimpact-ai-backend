@@ -20,6 +20,7 @@ def run_simulation(scenario: str):
     # Sample one record from dataset
     row = df.sample(1).iloc[0]
 
+    import datetime
     result = {
         "adoption_probability": float(row["adoption_willingness"]),
         "churn_risk": float(row["monthly_churn_rate"]),
@@ -50,7 +51,8 @@ def run_simulation(scenario: str):
             "monthly_churn_rate": float(row["monthly_churn_rate"]),
             "referral_rate": float(row["referral_rate"])
         },
-        "query": scenario
+        "query": scenario,
+        "timestamp": datetime.datetime.utcnow().isoformat()
     }
 
     # --- Generate richer AI summary ---

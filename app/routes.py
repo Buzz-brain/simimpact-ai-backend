@@ -25,11 +25,12 @@ async def simulate(request: SimulationRequest):
             "regional_heat": result["regional_heat"],
         },
         "summary": result["summary"],
-        "dataset_row": result.get("dataset_row")  # keep a reference for debugging/explainability
+        "dataset_row": result.get("dataset_row"),
+        "timestamp": result.get("timestamp")
     }
     await db.results.insert_one(record)
-    # Add the query to the result for frontend display
-    result_with_query = {**result, "query": request.scenario}
+    # Add the query and timestamp to the result for frontend display
+    result_with_query = {**result, "query": request.scenario, "timestamp": result.get("timestamp")}
     return result_with_query
 
 
@@ -40,8 +41,8 @@ async def get_history(limit: int = 50):
     Includes metrics, summary, and dataset reference.
     """
     results = await db.results.find().sort("_id", -1).to_list(limit)
-    # Add 'query' field to each history item (from 'scenario')
-    return [{**to_dict(r), "query": r.get("scenario", "")} for r in results]
+    # Add 'query' and 'timestamp' fields to each history item (from 'scenario' and 'timestamp')
+    return [{**to_dict(r), "query": r.get("scenario", ""), "timestamp": r.get("timestamp", "") } for r in results]
 
 
 @router.delete("/history/clear")
