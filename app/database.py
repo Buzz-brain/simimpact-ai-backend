@@ -1,8 +1,10 @@
 # app/database.py
+
+import os
 import motor.motor_asyncio
 from bson import ObjectId
 
-MONGO_URL = "mongodb+srv://chinomsochristian03:ejw3sYW64rOxh44g@cluster0.lvarax1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URL = os.getenv("MONGO_URL")
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
 db = client.simimpact
 
